@@ -1,0 +1,58 @@
+
+ 2021-02-04 11:41:18,287 ERROR [zzfwlog_f0a423dab5c8465f_6] 获取获取访问令牌系统错误 
+System.FormatException: The input is not a valid Base-64 string as it contains a non-base 64 character, more than two padding characters, or an illegal character among the padding characters.
+   at System.Convert.FromBase64CharPtr(Char* inputPtr, Int32 inputLength)
+   at System.Convert.FromBase64String(String s)
+   at TransferServiceApi.Help.SafeUtilHelper.GetDecryptDES(String info, String key) in E:\Work\2020年项目\个性化\正元-新中新_中转服务\TransferServiceApi\TransferServiceApi\Help\SafeUtilHelper.cs:line 54
+   at TransferServiceApi.Application.XzxApplication.AuthorizeAccessToken() in E:\Work\2020年项目\个性化\正元-新中新_中转服务\TransferServiceApi\TransferServiceApi\Application\XzxApplication.cs:line 97
+   at TransferServiceApi.Controllers.XzxServiceController.GetAuthorizeAccessToken() in E:\Work\2020年项目\个性化\正元-新中新_中转服务\TransferServiceApi\TransferServiceApi\Controllers\XzxServiceController.cs:line 32
+
+ 2021-02-04 14:59:03,419 ERROR [zzfwlog_b9f9ae65db5b47fe_4] 获取访问令牌系统错误 
+System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。 (192.168.5.106:8005))
+ ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 (192.168.5.106:8005)
+ ---> System.Net.Sockets.SocketException (10061): 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|283_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.DefaultConnectAsync(SocketsHttpConnectionContext context, CancellationToken cancellationToken)
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at System.Threading.Tasks.Task`1.get_Result()
+   at TransferServiceApi.Application.XzxApplication.GetAuthorizeAccessToken(Int32 TokenType) in E:\Work\2020年项目\个性化\正元-新中新_中转服务\TransferServiceApi\TransferServiceApi\Application\XzxApplication.cs:line 105
+   at TransferServiceApi.Application.XzxApplication.AuthorizeAccessToken(Int32 TokenType) in E:\Work\2020年项目\个性化\正元-新中新_中转服务\TransferServiceApi\TransferServiceApi\Application\XzxApplication.cs:line 32
+   at TransferServiceApi.Controllers.XzxServiceController.GetAuthorizeAccessToken(AccessTokenMap model) in E:\Work\2020年项目\个性化\正元-新中新_中转服务\TransferServiceApi\TransferServiceApi\Controllers\XzxServiceController.cs:line 38
+
+ 2021-02-04 14:59:41,127 ERROR [zzfwlog_2ec4e05f7f05497b_4] 获取访问令牌系统错误 
+System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。 (192.168.5.106:8005))
+ ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 (192.168.5.106:8005)
+ ---> System.Net.Sockets.SocketException (10061): 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|283_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.DefaultConnectAsync(SocketsHttpConnectionContext context, CancellationToken cancellationToken)
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(Func`3 callback, DnsEndPoint endPoint, HttpRequestMessage requestMessage, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at System.Threading.Tasks.Task`1.get_Result()
+   at TransferServiceApi.Application.XzxApplication.GetAuthorizeAccessToken(Int32 TokenType) in E:\Work\2020年项目\个性化\正元-新中新_中转服务\TransferServiceApi\TransferServiceApi\Application\XzxApplication.cs:line 105
+   at TransferServiceApi.Application.XzxApplication.AuthorizeAccessToken(Int32 TokenType) in E:\Work\2020年项目\个性化\正元-新中新_中转服务\TransferServiceApi\TransferServiceApi\Application\XzxApplication.cs:line 32
+   at TransferServiceApi.Controllers.XzxServiceController.GetAuthorizeAccessToken(AccessTokenMap model) in E:\Work\2020年项目\个性化\正元-新中新_中转服务\TransferServiceApi\TransferServiceApi\Controllers\XzxServiceController.cs:line 38

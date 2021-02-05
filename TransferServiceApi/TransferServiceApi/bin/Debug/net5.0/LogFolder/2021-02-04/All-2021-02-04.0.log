@@ -1,0 +1,18 @@
+
+ 2021-02-04 15:04:38,129 INFO  [zzfwlog_4a10e786f39a4b3b_1] TransferServiceApi 服务开始启动 
+
+ 2021-02-04 15:04:38,162 INFO  [zzfwlog_4a10e786f39a4b3b_1] TransferServiceApi 服务启动，读取配置文件 appsettings.json 
+
+ 2021-02-04 15:04:38,366 INFO  [zzfwlog_4a10e786f39a4b3b_1] TransferServiceApi 服务启动完成 
+
+ 2021-02-04 15:19:11,199 INFO  [zzfwlog_2c1bd12845d04e3e_1] TransferServiceApi 服务开始启动 
+
+ 2021-02-04 15:19:11,228 INFO  [zzfwlog_2c1bd12845d04e3e_1] TransferServiceApi 服务启动，读取配置文件 appsettings.json 
+
+ 2021-02-04 15:19:11,408 INFO  [zzfwlog_2c1bd12845d04e3e_1] TransferServiceApi 服务启动完成 
+
+ 2021-02-04 15:29:41,819 INFO  [zzfwlog_f153bcef229d4915_1] TransferServiceApi 服务开始启动 
+
+ 2021-02-04 15:29:41,861 INFO  [zzfwlog_f153bcef229d4915_1] TransferServiceApi 服务启动，读取配置文件 appsettings.json 
+
+ 2021-02-04 15:29:42,074 INFO  [zzfwlog_f153bcef229d4915_1] TransferServiceApi 服务启动完成 
