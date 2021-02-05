@@ -1,0 +1,16 @@
+
+//部署创建服务
+sc.exe create ZBZH_WorkerService binPath=E:\Work\网站发布\WorkerService服务\WorkerService.exe
+
+
+//启动服务
+sc.exe start ZBZH_WorkerService
+
+//停止服务
+sc.exe stop ZBZH_WorkerService
+
+//删除服务
+sc.exe delete ZBZH_WorkerService
+
+//添加服务描述
+sc description ZBZH_WorkerService "定时WorkerService服务"
