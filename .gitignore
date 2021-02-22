@@ -3,3 +3,6 @@
 ################################################################################
 
 /TransferServiceApi/.vs/TransferServiceApi/v16
+/TransferServiceApi/TransferServiceApi/bin/Debug/net5.0
+/TransferServiceApi/TransferServiceApi/obj
+/TransferServiceApi/.vs/TransferServiceApi/config
