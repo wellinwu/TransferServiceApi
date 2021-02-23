@@ -54,8 +54,8 @@ namespace TransferServiceApi.Controllers
         /// 获取通用二维码
         /// </summary>
         /// <returns></returns>
-        [HttpPost]
-        public string GetCommonQRcode([FromBody] CommonQRcodeMap model)
+        [HttpGet]
+        public string GetCommonQRcode([FromQuery] CommonQRcodeParam model)
         {
             try
             {

@@ -63,6 +63,33 @@ namespace TransferServiceApi.Models.XzxModel
 
     public class OnecardBarcodeMap
     {
-
+        /// <summary>
+        /// 业务处理错误代码：0：成功 其他：错误
+        /// </summary>
+        public string retcode { get; set; }
+        /// <summary>
+        /// 详细错误信息
+        /// </summary>
+        public string errmsg { get; set; }
+        /// <summary>
+        /// 一卡通账户
+        /// </summary>
+        public string account { get; set; }
+        /// <summary>
+        /// 支付方式
+        /// </summary>
+        public string paytype { get; set; }
+        /// <summary>
+        /// 支付账号
+        /// </summary>
+        public string payacc { get; set; }
+        /// <summary>
+        /// 条码数据：22 字节的数字串
+        /// </summary>
+        public string barcode { get; set; }
+        /// <summary>
+        /// 二维码超时时间（60秒）
+        /// </summary>
+        public string expires { get; set; }
     }
 }

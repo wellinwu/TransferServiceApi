@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TransferServiceApi.Models.ZytkModel
 {
-    public class CommonQRcodeMap
+    public class CommonQRcodeParam
     {
         /// <summary>
         /// 一卡通帐号
