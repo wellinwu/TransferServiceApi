@@ -2,12 +2,16 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Web;
 using TransferServiceApi.Common;
 using TransferServiceApi.Help;
 using TransferServiceApi.Models.XzxModel;
+using TransferServiceApi.Models.XzxModel.Entity;
 using static TransferServiceApi.Help.LogHelper;
 
 namespace TransferServiceApi.Application
@@ -273,6 +277,89 @@ namespace TransferServiceApi.Application
                 onecardResult.errmsg = $"获取账户二维码失败，请求状态码：{response.Result.StatusCode}";
             Log.Info($"获取消费码访问令牌返回结果：{JsonConvert.SerializeObject(onecardResult)}");
             return onecardResult;
+        }
+
+        /// <summary>
+        /// 餐卡支付结果通知
+        /// </summary>
+        /// <param name="Account">账号</param>
+        /// <param name="QrCode">二维码字符串</param>
+        /// <returns></returns>
+        public static CardPaymentResultMap CardPaymentResult(string Account, string QrCode)
+        {
+            CardPaymentResultMap cardPaymentResult = new CardPaymentResultMap();
+            switch (XzxConfig.ResultType)
+            {
+                case 1:
+                    var QrCodeRecordInfo = SqlDBHelper.GetInstance(XzxConfig.DbConnect, XzxConfig.DbType).Queryable<QrCodeRecord>()
+                        .Where(x => x.Account == Account && x.QrCode == QrCode).First();
+                    if (QrCodeRecordInfo == null || string.IsNullOrWhiteSpace(QrCodeRecordInfo.QrCode))
+                        return cardPaymentResult;
+                    DateTime DateTimeStart = Convert.ToDateTime(QrCodeRecordInfo.DateTime);
+                    DateTime DateTimeEnd = DateTimeStart.AddSeconds(60);//一分钟之内，二维码有效期为 60 秒
+                    var QRCodeCacheList = MemoryCacheHelper.Get<List<QrCodeCacheMap>>($"{Account}_QRCodeCache");
+                    var AccountNumber = (from m in QRCodeCacheList
+                                         where m.Account == Account && m.QrCode == QrCode
+                                         select m.FromJnNumber).FirstOrDefault();
+                    if (AccountNumber != null) return cardPaymentResult;
+                    else
+                    {
+                        var FromJnnuMberList = (from m in QRCodeCacheList
+                                                where m.Account == Account
+                                                select long.Parse(m.FromJnNumber)).ToList();
+                        TransactionRecord TransactionInfo = new TransactionRecord();
+                        if (FromJnnuMberList != null && FromJnnuMberList.Count > 0)
+                        {
+                            TransactionInfo = SqlDBHelper.GetInstance(XzxConfig.DbConnect, XzxConfig.DbType).Queryable<TransactionRecord>()
+                                .Where(x => x.TranCode == "99" && x.FromAccount == long.Parse(Account) &&
+                                x.JnDateTime >= DateTimeStart && x.JnDateTime <= DateTimeEnd &&
+                                !FromJnnuMberList.Contains(x.FromJnNumber)).OrderBy(x => x.JnDateTime).First();
+                        }
+                        else
+                        {
+                            TransactionInfo = SqlDBHelper.GetInstance(XzxConfig.DbConnect, XzxConfig.DbType).Queryable<TransactionRecord>()
+                               .Where(x => x.TranCode == "99" && x.FromAccount == long.Parse(Account) &&
+                               x.JnDateTime >= DateTimeStart && x.JnDateTime <= DateTimeEnd).OrderBy(x => x.JnDateTime).First();
+                        }
+                        //待加入缓存的二维码信息
+                        List<QrCodeCacheMap> QrCodeCacheList = new List<QrCodeCacheMap>();
+                        //返回值
+                        if (TransactionInfo != null && TransactionInfo.FromAccount > 0)
+                        {
+                            cardPaymentResult.IsDisCount = "1";
+                            cardPaymentResult.TotalAmount = TransactionInfo.TraNamt.ToString();
+                            cardPaymentResult.DisCountAmount = "0.00";
+                            cardPaymentResult.AmounTafterDisCount = TransactionInfo.TraNamt.ToString();
+                            //添加到缓存
+                            QrCodeCacheMap qrCodeCache = new QrCodeCacheMap
+                            {
+                                Account = Account,
+                                FromJnNumber = TransactionInfo.FromJnNumber.ToString(),
+                                QrCode = QrCode,
+                                CreateTime = DateTime.Now
+                            };
+                            QrCodeCacheList.Add(qrCodeCache);
+                        }
+                        //二维码信息缓存有效期 3 分钟
+                        if (QrCodeCacheList != null && QrCodeCacheList.Count > 0)
+                            MemoryCacheHelper.Set($"{Account}_QRCodeCache", QrCodeCacheList, new TimeSpan(0, 3, 0));
+                    }
+                    break;
+                case 2:
+                    string ReSume = $"二维码=[{QrCode}] {QrCode}";//刷卡结果备注
+                    var TRJN_Info = SqlDBHelper.GetInstance(XzxConfig.DbConnect, XzxConfig.DbType).Queryable<TransactionRecord>()
+                        .Where(x => x.FromAccount == long.Parse(Account) &&
+                        (x.ReSume == ReSume || x.ReSume.Trim() == ReSume.Trim())).First();
+                    if (TRJN_Info != null)
+                    {
+                        cardPaymentResult.IsDisCount = "1";
+                        cardPaymentResult.TotalAmount = TRJN_Info.TraNamt.ToString();
+                        cardPaymentResult.DisCountAmount = "0.00";
+                        cardPaymentResult.AmounTafterDisCount = TRJN_Info.TraNamt.ToString();
+                    }
+                    break;
+            }
+            return cardPaymentResult;
         }
     }
 }

@@ -35,4 +35,16 @@ namespace TransferServiceApi.Models.XzxModel
         /// </summary>
         public string payacc { get; set; }
     }
+
+    public class CardPaymentResultParam
+    {
+        /// <summary>
+        /// 二维码字符串
+        /// </summary>
+        public string QrCode { get; set; }
+        /// <summary>
+        /// 账号
+        /// </summary>
+        public string Account { get; set; }
+    }
 }

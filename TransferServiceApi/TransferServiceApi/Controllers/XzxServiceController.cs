@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using TransferServiceApi.Application;
 using TransferServiceApi.Common;
 using TransferServiceApi.Models.XzxModel;
@@ -89,6 +86,40 @@ namespace TransferServiceApi.Controllers
             catch (Exception ex)
             {
                 Log.Error("获取账户二维码系统错误", ex);
+                dataResult.BS = "-99";
+                dataResult.Msg = "系统错误！";
+            }
+            return DataSerialize.StringOfObject(dataResult, 1);
+        }
+
+        /// <summary>
+        /// 获取餐卡支付结果通知
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public string GetCardPaymentResult([FromQuery] CardPaymentResultParam model)
+        {
+            try
+            {
+                var data = XzxApplication.CardPaymentResult(model.Account, model.QrCode);
+                if (data != null && !string.IsNullOrWhiteSpace(data.AmounTafterDisCount))
+                {
+                    dataResult.BS = "1";
+                    dataResult.Msg = "获取成功！";
+                    dataResult.Rows = data;
+                    dataResult.Total = 1;
+                }
+                else
+                {
+                    dataResult.BS = "0";
+                    dataResult.Msg = "获取失败！";
+                    dataResult.Rows = data;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error("获取餐卡支付结果通知系统错误", ex);
                 dataResult.BS = "-99";
                 dataResult.Msg = "系统错误！";
             }
